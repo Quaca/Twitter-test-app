@@ -19,6 +19,7 @@ repositories {
 }
 
 ext{
+	set('webVersion', "2.7.0")
 	set('mysqlConnectorVersion', "8.0.29")
 	set('devToolVersion', "2.7.0")
 	set('dataJpaVersion', "2.7.0")
@@ -27,10 +28,11 @@ ext{
 	set('jupiterApiVersion', "5.8.2")
 	set('modelMapperVersion', "3.1.0")
 	set("validationVersion", "2.7.0")
+	set("testVersion", "2.7.0")
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation "org.springframework.boot:spring-boot-starter-web:${webVersion}"
 	implementation "mysql:mysql-connector-java:${mysqlConnectorVersion}"
 	implementation "org.springframework.boot:spring-boot-devtools:${devToolVersion}"
 	implementation "org.springframework.boot:spring-boot-starter-data-jpa:${dataJpaVersion}"
@@ -39,9 +41,9 @@ dependencies {
 	implementation "org.junit.jupiter:junit-jupiter-api:${jupiterApiVersion}"
 	implementation "org.modelmapper:modelmapper:${modelMapperVersion}"
     implementation "org.springframework.boot:spring-boot-starter-validation:${validationVersion}"
-    compileOnly 'org.projectlombok:lombok'
+	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation "org.springframework.boot:spring-boot-starter-test:${testVersion}"
 }
 
 tasks.named('test') {
