@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -19,5 +20,14 @@ public class Tweet {
     private Date publishedAt;
 
     private Date updatedAt;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "TWEET_ID", nullable = false)
+    private List<Comment> comments;
+
+
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
+    }
 
 }

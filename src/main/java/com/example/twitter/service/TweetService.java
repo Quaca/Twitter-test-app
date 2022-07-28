@@ -1,6 +1,7 @@
 package com.example.twitter.service;
 
 import com.example.twitter.exception.NoResourceException;
+import com.example.twitter.model.Comment;
 import com.example.twitter.model.Tweet;
 import com.example.twitter.repository.TweetRepository;
 import org.springframework.stereotype.Service;
@@ -55,5 +56,12 @@ public class TweetService {
     @Transactional
     public void delete(Tweet tweet) {
         tweetRepository.delete(tweet);
+    }
+
+
+    @Transactional
+    public void addComment(Tweet tweet, Comment comment) {
+        tweet.addComment(comment);
+        tweetRepository.save(tweet);
     }
 }

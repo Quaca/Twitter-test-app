@@ -11,7 +11,8 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class TweetDto {
+public class CommentGetDto {
+    private Long id;
 
     @NotBlank
     private String text;

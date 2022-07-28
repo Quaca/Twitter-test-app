@@ -4,21 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class TweetDto {
-
-    @NotBlank
-    private String text;
-
+public class TweetUpdateDto extends TweetDto {
     @NotNull
-    private Date publishedAt;
+    private Long id;
 
-    @NotNull
-    private Date updatedAt;
 }

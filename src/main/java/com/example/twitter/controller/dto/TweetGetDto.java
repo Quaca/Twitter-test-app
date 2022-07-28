@@ -7,11 +7,15 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
+
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class TweetDto {
+public class TweetGetDto {
+    @NotNull
+    private Long id;
 
     @NotBlank
     private String text;
@@ -21,4 +25,6 @@ public abstract class TweetDto {
 
     @NotNull
     private Date updatedAt;
+
+    private List<CommentGetDto> comments;
 }

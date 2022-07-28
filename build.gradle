@@ -1,7 +1,7 @@
 plugins {
-	id 'org.springframework.boot' version '2.7.1'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id 'java'
+    id 'org.springframework.boot' version '2.7.1'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
 }
 
 group = 'com.example'
@@ -9,43 +9,45 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
-ext{
-	set('webVersion', "2.7.0")
-	set('mysqlConnectorVersion', "8.0.29")
-	set('devToolVersion', "2.7.0")
-	set('dataJpaVersion', "2.7.0")
-	set('jdbcVersion', "2.7.0")
-	set('jupiterEngineVersion', "5.8.2")
-	set('jupiterApiVersion', "5.8.2")
-	set('modelMapperVersion', "3.1.0")
-	set("validationVersion", "2.7.0")
-	set("testVersion", "2.7.0")
+ext {
+    set('webVersion', "2.7.0")
+    set('dataJpaVersion', "2.7.0")
+    set('jdbcVersion', "2.7.0")
+    set("validationVersion", "2.7.0")
+    set('devToolVersion', "2.7.0")
+    set('mysqlConnectorVersion', "8.0.29")
+    set('jupiterEngineVersion', "5.8.2")
+    set('jupiterApiVersion', "5.8.2")
+    set('modelMapperVersion', "3.1.0")
+
+    set("testVersion", "2.7.0")
 }
 
 dependencies {
-	implementation "org.springframework.boot:spring-boot-starter-web:${webVersion}"
-	implementation "mysql:mysql-connector-java:${mysqlConnectorVersion}"
-	implementation "org.springframework.boot:spring-boot-devtools:${devToolVersion}"
-	implementation "org.springframework.boot:spring-boot-starter-data-jpa:${dataJpaVersion}"
-	implementation "org.springframework.boot:spring-boot-starter-jdbc:${jdbcVersion}"
-	implementation "org.junit.jupiter:junit-jupiter-engine:${jupiterEngineVersion}"
-	implementation "org.junit.jupiter:junit-jupiter-api:${jupiterApiVersion}"
-	implementation "org.modelmapper:modelmapper:${modelMapperVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-web:${webVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa:${dataJpaVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-jdbc:${jdbcVersion}"
     implementation "org.springframework.boot:spring-boot-starter-validation:${validationVersion}"
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation "org.springframework.boot:spring-boot-starter-test:${testVersion}"
+    implementation "org.springframework.boot:spring-boot-devtools:${devToolVersion}"
+    implementation "mysql:mysql-connector-java:${mysqlConnectorVersion}"
+    implementation "org.modelmapper:modelmapper:${modelMapperVersion}"
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    implementation "org.junit.jupiter:junit-jupiter-engine:${jupiterEngineVersion}"
+    implementation "org.junit.jupiter:junit-jupiter-api:${jupiterApiVersion}"
+    testImplementation "org.springframework.boot:spring-boot-starter-test:${testVersion}"
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
