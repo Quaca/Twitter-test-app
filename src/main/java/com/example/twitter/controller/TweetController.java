@@ -3,7 +3,10 @@ package com.example.twitter.controller;
 import com.example.twitter.controller.dto.*;
 import com.example.twitter.model.Comment;
 import com.example.twitter.model.Tweet;
+import com.example.twitter.model.User;
+import com.example.twitter.service.CommentService;
 import com.example.twitter.service.TweetService;
+import com.example.twitter.service.UserService;
 import com.example.twitter.utils.ObjectMapperUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +18,13 @@ import java.util.List;
 public class TweetController {
 
     private final TweetService tweetService;
+    private final UserService userService;
+    private final CommentService commentService;
 
-    public TweetController(TweetService tweetService) {
+    public TweetController(TweetService tweetService, UserService userService, CommentService commentService) {
         this.tweetService = tweetService;
+        this.userService = userService;
+        this.commentService = commentService;
     }
 
 
@@ -39,11 +46,15 @@ public class TweetController {
 
     @PostMapping("v1/tweets")
     @ResponseStatus(HttpStatus.OK)
-    public TweetDto addTweet(@Valid @RequestBody TweetCreateDto tweetCreateDto) {
-        Tweet newTweet = ObjectMapperUtils.map(tweetCreateDto, Tweet.class);
-        tweetService.save(newTweet);
+    public TweetGetDto addTweet(@Valid @RequestBody TweetCreateDto tweetCreateDto) {
+        Tweet tweet = ObjectMapperUtils.map(tweetCreateDto, Tweet.class);
+        User user = userService.getUserById(tweetCreateDto.getUserId());
 
-        return ObjectMapperUtils.map(newTweet, TweetCreateDto.class);
+        tweet.setUser(user);
+        tweetService.save(tweet);
+//        userService.addTweet(user, tweet);
+
+        return ObjectMapperUtils.map(tweet, TweetGetDto.class);
     }
 
     @PutMapping("v1/tweets")
@@ -65,9 +76,23 @@ public class TweetController {
     @ResponseStatus(HttpStatus.OK)
     public TweetGetDto addComment(@Valid @RequestBody CommentDto commentDto) {
         Comment comment = ObjectMapperUtils.map(commentDto, Comment.class);
-        Tweet tweet = tweetService.getTweetById(Long.valueOf(commentDto.getTweetId()));
+
+        Tweet tweet = tweetService.getTweetById(commentDto.getTweetId());
+        User user = userService.getUserById(commentDto.getUserId());
+
+        comment.setUser(user);
         tweetService.addComment(tweet, comment);
-        Tweet newTweet = tweetService.getTweetById(Long.valueOf(commentDto.getTweetId()));
+
+        Tweet newTweet = tweetService.getTweetById(commentDto.getTweetId());
         return ObjectMapperUtils.map(newTweet, TweetGetDto.class);
+    }
+
+    @DeleteMapping("v1/tweet/comment/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteComment(@PathVariable String id) {
+
+        Comment comment = commentService.getCommentById(Long.valueOf(id));
+        commentService.delete(comment);
+
     }
 }

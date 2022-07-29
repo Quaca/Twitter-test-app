@@ -48,4 +48,21 @@ public class TweetRequestBuilder {
         return mvc.perform(delete("/v1/tweet/comment/{id}", id));
     }
 
+
+    ResultActions findUserById(Long id) throws Exception{
+        return mvc.perform(get("/v1/user/{id}", id));
+    }
+    ResultActions createUser(String json) throws Exception {
+        return mvc.perform(post("/v1/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json));
+    }
+    ResultActions updateUser(String json) throws Exception {
+        return mvc.perform(put("/v1/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json));
+    }
+    ResultActions deleteUserById(Long id) throws Exception {
+        return mvc.perform(delete("/v1/user/{id}", id));
+    }
 }

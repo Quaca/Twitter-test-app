@@ -58,7 +58,6 @@ public class TweetService {
         tweetRepository.delete(tweet);
     }
 
-
     @Transactional
     public void addComment(Tweet tweet, Comment comment) {
         tweet.addComment(comment);

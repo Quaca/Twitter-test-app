@@ -1,33 +1,33 @@
-package com.example.twitter.controller.dto;
+package com.example.twitter.controller.dto.users;
 
+import com.example.twitter.controller.dto.CommentGetDto;
+import com.example.twitter.controller.dto.TweetGetDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 import java.util.List;
-
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TweetGetDto {
+public class UserGetDto {
     @NotNull
     private Long id;
 
-    @NotNull
-    private Long userId;
+    @NotBlank
+    private String name;
 
     @NotBlank
-    private String text;
+    private String surname;
 
-    @NotNull
-    private Date publishedAt;
+    @NotBlank
+    private String country;
 
-    @NotNull
-    private Date updatedAt;
+    private List<TweetGetDto> tweets;
 
     private List<CommentGetDto> comments;
+
 }

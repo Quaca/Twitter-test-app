@@ -13,6 +13,9 @@ import java.util.Date;
 @AllArgsConstructor
 public abstract class TweetDto {
 
+    @NotNull
+    private Long userId;
+
     @NotBlank
     private String text;
 

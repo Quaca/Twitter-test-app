@@ -36,14 +36,14 @@ public class TweetControllerTest {
     @Test
     @Transactional
     public void getTweetById_Successful_ValidId() throws Exception {
-        tweetRequestBuilder.findTweetById(3L)
+        tweetRequestBuilder.findTweetById(79L)
                 .andExpect(status().isOk());
     }
 
     @Test
     @Transactional
     public void getTweetById_Unsuccessful_NotExistingId() throws Exception {
-        tweetRequestBuilder.findTweetById(100L)
+        tweetRequestBuilder.findTweetById(1000000L)
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.errorCode").value("#TweetNotExisting"));
     }
@@ -51,7 +51,7 @@ public class TweetControllerTest {
     @Test
     @Transactional
     public void postTweet_Successful_TweetObjectPassed() throws Exception {
-        String json = "{\"text\":\"Utorak text objava\",\"publishedAt\":\"2022-07-19T12:25:43.511+00:00\",\"updatedAt\":\"2022-07-19T12:25:43.511+00:00\"}";
+        String json = "{\"userId\":78,\"text\":\"Test\",\"publishedAt\":\"2022-07-19T12:25:43.511+00:00\",\"updatedAt\":\"2022-07-19T12:25:43.511+00:00\"}";
         tweetRequestBuilder.createTweet(json)
                 .andExpect(status().isOk());
     }
@@ -59,7 +59,7 @@ public class TweetControllerTest {
     @Test
     @Transactional
     public void postTweet_Unsuccessful_TweetObjectPassedWithoutText() throws Exception {
-        String json = "{\"text\":\"\",\"publishedAt\":\"2022-07-19T12:25:43.511+00:00\",\"updatedAt\":\"2022-07-19T12:25:43.511+00:00\"}";
+        String json = "{\"userId\":78,\"text\":\"\",\"publishedAt\":\"2022-07-19T12:25:43.511+00:00\",\"updatedAt\":\"2022-07-19T12:25:43.511+00:00\"}";
         tweetRequestBuilder.createTweet(json)
                 .andExpect(status().isBadRequest());
     }
@@ -67,7 +67,7 @@ public class TweetControllerTest {
     @Test
     @Transactional
     public void updateTweet_Successful_TweetObjectPassed() throws Exception {
-        String json = "{\"id\":3,\"text\":\"Test update\",\"publishedAt\":\"2022-07-19T12:25:43.511+00:00\",\"updatedAt\":\"2022-07-19T12:25:43.511+00:00\"}";
+        String json = "{\"id\":79,\"userId\":78,\"text\":\"Test update\",\"publishedAt\":\"2022-07-19T12:25:43.511+00:00\",\"updatedAt\":\"2022-07-19T12:25:43.511+00:00\"}";
         tweetRequestBuilder.updateTweet(json)
                 .andExpect(status().isOk());
     }
@@ -76,14 +76,14 @@ public class TweetControllerTest {
     @Test
     @Transactional
     public void deleteTweetById_Successful_Id() throws Exception {
-        tweetRequestBuilder.deleteTweetById(3L)
+        tweetRequestBuilder.deleteTweetById(79L)
                 .andExpect(status().isOk());
     }
 
     @Test
     @Transactional
     public void deleteTweetById_Unsuccessful_Id() throws Exception {
-        tweetRequestBuilder.deleteTweetById(100L)
+        tweetRequestBuilder.deleteTweetById(1000000L)
                 .andExpect(status().isNotFound());
     }
 
@@ -92,7 +92,7 @@ public class TweetControllerTest {
     @Test
     @Transactional
     public void addComment_Successful_CommentObjectPassed() throws Exception {
-        String json = "{\"text\":\"treci komentar\",\"tweetId\":49,\"publishedAt\":\"2022-07-28T12:25:43.511+00:00\",\"updatedAt\":\"2022-07-28T12:25:43.511+00:00\"}";
+        String json = "{\"userId\":78,\"text\":\"comment\",\"tweetId\":79,\"publishedAt\":\"2022-07-28T12:25:43.511+00:00\",\"updatedAt\":\"2022-07-28T12:25:43.511+00:00\"}";
         tweetRequestBuilder.addComment(json)
                 .andExpect(status().isOk());
     }
@@ -100,9 +100,24 @@ public class TweetControllerTest {
     @Test
     @Transactional
     public void addComment_Unsuccessful_CommentObjectPassedWithoutText() throws Exception {
-        String json = "{\"text\":\"\",\"tweetId\":49,\"publishedAt\":\"2022-07-28T12:25:43.511+00:00\",\"updatedAt\":\"2022-07-28T12:25:43.511+00:00\"}";
+        String json = "{\"userId\":78,\"text\":\"\",\"tweetId\":49,\"publishedAt\":\"2022-07-28T12:25:43.511+00:00\",\"updatedAt\":\"2022-07-28T12:25:43.511+00:00\"}";
         tweetRequestBuilder.addComment(json)
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @Transactional
+    public void deleteCommentById_Successful_Id() throws Exception {
+        tweetRequestBuilder.deleteCommentById(85L)
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @Transactional
+    public void deleteCommentById_Unsuccessful_Id() throws Exception {
+        tweetRequestBuilder.deleteCommentById(100453L)
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.errorCode").value("#CommentNotExisting"));
     }
 
 

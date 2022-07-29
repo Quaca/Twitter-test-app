@@ -13,6 +13,9 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
     private String text;
 
     private Date publishedAt;

@@ -15,6 +15,8 @@ public class CommentDto {
 
     private Long id;
 
+    private Long userId;
+
     @NotBlank
     private String text;
 

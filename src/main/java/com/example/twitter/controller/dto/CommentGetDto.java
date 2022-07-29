@@ -14,6 +14,8 @@ import java.util.Date;
 public class CommentGetDto {
     private Long id;
 
+    private Long userId;
+
     @NotBlank
     private String text;
 
