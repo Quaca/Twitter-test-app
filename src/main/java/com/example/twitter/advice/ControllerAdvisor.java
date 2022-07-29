@@ -21,11 +21,6 @@ public class ControllerAdvisor {
 
         return new TwitterErrorDto(noResourceException.getErrorCode(), List.of(noResourceException.getMessage()));
 
-//        NoResourceExceptionDto noResourceExceptionDto = new NoResourceExceptionDto();
-//        noResourceExceptionDto.setResourceId(noResourceException.getResourceId());
-//        noResourceExceptionDto.setMessage(noResourceException.getMessage());
-//        noResourceExceptionDto.setErrorCode(noResourceException.getErrorCode());
-//        return noResourceExceptionDto;
     }
 
 
@@ -34,11 +29,7 @@ public class ControllerAdvisor {
     public TwitterErrorDto handleEmptyInput(EmptyInputException emptyInputException) {
 
         return new TwitterErrorDto(emptyInputException.getErrorCode(), List.of(emptyInputException.getMessage()));
-//        EmptyInputExceptionDto emptyInputExceptionDto = new EmptyInputExceptionDto();
-//        emptyInputExceptionDto.setInputField(emptyInputException.getInputField());
-//        emptyInputExceptionDto.setMessage(emptyInputException.getMessage());
-//        emptyInputExceptionDto.setErrorCode(emptyInputException.getErrorCode());
-//        return emptyInputExceptionDto;
+
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
