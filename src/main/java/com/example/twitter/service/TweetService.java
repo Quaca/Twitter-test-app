@@ -29,12 +29,12 @@ public class TweetService {
     }
 
     @Transactional
-    public void save(Tweet tweet) {
-        tweetRepository.save(tweet);
+    public Tweet save(Tweet tweet) {
+        return tweetRepository.save(tweet);
     }
 
     @Transactional
-    public void update(Tweet tweet) {
+    public Tweet update(Tweet tweet) {
 
         // get existing tweet for database
         Tweet oldTweet = getTweetById(Long.valueOf(tweet.getId()));
@@ -45,7 +45,7 @@ public class TweetService {
         oldTweet.setUpdatedAt(tweet.getUpdatedAt());
 
         // save to database
-        tweetRepository.save(oldTweet);
+        return tweetRepository.save(oldTweet);
     }
 
     @Transactional

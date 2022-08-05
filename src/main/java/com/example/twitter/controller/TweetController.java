@@ -1,6 +1,9 @@
 package com.example.twitter.controller;
 
-import com.example.twitter.controller.dto.*;
+import com.example.twitter.controller.dto.CommentDto;
+import com.example.twitter.controller.dto.TweetCreateDto;
+import com.example.twitter.controller.dto.TweetGetDto;
+import com.example.twitter.controller.dto.TweetUpdateDto;
 import com.example.twitter.model.Comment;
 import com.example.twitter.model.Tweet;
 import com.example.twitter.model.User;
@@ -49,20 +52,19 @@ public class TweetController {
     public TweetGetDto addTweet(@Valid @RequestBody TweetCreateDto tweetCreateDto) {
         Tweet tweet = ObjectMapperUtils.map(tweetCreateDto, Tweet.class);
         User user = userService.getUserById(tweetCreateDto.getUserId());
-
         tweet.setUser(user);
-        tweetService.save(tweet);
-//        userService.addTweet(user, tweet);
 
-        return ObjectMapperUtils.map(tweet, TweetGetDto.class);
+        Tweet returnedTweet = tweetService.save(tweet);
+
+        return ObjectMapperUtils.map(returnedTweet, TweetGetDto.class);
     }
 
     @PutMapping("v1/tweets")
     @ResponseStatus(HttpStatus.OK)
-    public TweetDto updateTweet(@Valid @RequestBody TweetUpdateDto tweetUpdateDto) {
+    public TweetGetDto updateTweet(@Valid @RequestBody TweetUpdateDto tweetUpdateDto) {
         Tweet newTweet = ObjectMapperUtils.map(tweetUpdateDto, Tweet.class);
-        tweetService.update(newTweet);
-        return ObjectMapperUtils.map(newTweet, TweetUpdateDto.class);
+        Tweet returnedTweet = tweetService.update(newTweet);
+        return ObjectMapperUtils.map(returnedTweet, TweetGetDto.class);
     }
 
     @DeleteMapping("v1/tweet/{id}")
@@ -79,8 +81,8 @@ public class TweetController {
 
         Tweet tweet = tweetService.getTweetById(commentDto.getTweetId());
         User user = userService.getUserById(commentDto.getUserId());
-
         comment.setUser(user);
+
         tweetService.addComment(tweet, comment);
 
         Tweet newTweet = tweetService.getTweetById(commentDto.getTweetId());

@@ -1,5 +1,6 @@
 package com.example.twitter.controller;
 
+import com.example.twitter.controller.dto.followership.FollowershipDto;
 import com.example.twitter.controller.dto.users.UserCreateDto;
 import com.example.twitter.controller.dto.users.UserGetDto;
 import com.example.twitter.controller.dto.users.UserUpdateDto;
@@ -30,18 +31,16 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public UserGetDto createUser(@Valid @RequestBody UserCreateDto userCreateDto) {
         User newUser = ObjectMapperUtils.map(userCreateDto, User.class);
-
-        userService.save(newUser);
-
-        return ObjectMapperUtils.map(newUser, UserGetDto.class);
+        User returnedUser = userService.save(newUser);
+        return ObjectMapperUtils.map(returnedUser, UserGetDto.class);
     }
 
     @PutMapping("v1/users")
     @ResponseStatus(HttpStatus.OK)
     public UserGetDto updateUser(@Valid @RequestBody UserUpdateDto userUpdateDto) {
         User newUser = ObjectMapperUtils.map(userUpdateDto, User.class);
-        userService.update(newUser);
-        return ObjectMapperUtils.map(newUser, UserGetDto.class);
+        User returnedUser = userService.update(newUser);
+        return ObjectMapperUtils.map(returnedUser, UserGetDto.class);
     }
 
     @DeleteMapping("v1/user/{id}")
@@ -49,6 +48,30 @@ public class UserController {
     public void deleteUser(@PathVariable String id) {
         User user = userService.getUserById(Long.valueOf(id));
         userService.delete(user);
+    }
+
+    @PostMapping("v1/users/follow")
+    @ResponseStatus(HttpStatus.OK)
+    public UserGetDto followUser(@Valid @RequestBody FollowershipDto followershipDto) {
+
+        User fromUser = userService.getUserById(followershipDto.getFromId());
+        User toUser = userService.getUserById(followershipDto.getToId());
+
+        User userCreated = userService.followUser(fromUser, toUser);
+
+        return ObjectMapperUtils.map(userCreated, UserGetDto.class);
+    }
+
+    @DeleteMapping("v1/users/unfollow")
+    @ResponseStatus(HttpStatus.OK)
+    public UserGetDto unfollowUser(@Valid @RequestBody FollowershipDto followershipDto) {
+
+        User fromUser = userService.getUserById(followershipDto.getFromId());
+        User toUser = userService.getUserById(followershipDto.getToId());
+
+        User userCreated = userService.unfollowUser(fromUser, toUser);
+
+        return ObjectMapperUtils.map(userCreated, UserGetDto.class);
     }
 
 }
