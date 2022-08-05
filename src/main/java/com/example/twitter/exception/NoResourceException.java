@@ -11,9 +11,9 @@ public class NoResourceException extends RuntimeException {
         this.errorCode = errorCode;
     }
 
-    public NoResourceException(String resourceId, String message) {
+    public NoResourceException(String message, String errorCode) {
         super(message);
-        this.resourceId = resourceId;
+        this.errorCode = errorCode;
     }
 
     public NoResourceException(String resourceId) {

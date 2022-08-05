@@ -1,4 +1,4 @@
-package com.example.twitter.tweet;
+package com.example.twitter.users;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,24 +18,24 @@ public class UserControllerTest {
     @Autowired
     private MockMvc mvc;
 
-    private TweetRequestBuilder tweetRequestBuilder;
+    private UserRequestBuilder userRequestBuilder;
 
     @BeforeEach
     void configureSystemUnderTest() {
-        tweetRequestBuilder = new TweetRequestBuilder(mvc);
+        userRequestBuilder = new UserRequestBuilder(mvc);
     }
 
     @Test
     @Transactional
     public void getUserById_Successful_ValidId() throws Exception {
-        tweetRequestBuilder.findUserById(78L)
+        userRequestBuilder.findUserById(78L)
                 .andExpect(status().isOk());
     }
 
     @Test
     @Transactional
     public void getUserById_Unsuccessful_NotExistingId() throws Exception {
-        tweetRequestBuilder.findUserById(1000000L)
+        userRequestBuilder.findUserById(1000000L)
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.errorCode").value("#UserNotExisting"));
     }
@@ -44,7 +44,7 @@ public class UserControllerTest {
     @Transactional
     public void createUser_Successful_UserObjectPassed() throws Exception {
         String json = "{\"name\":\"Steve\",\"surname\":\"Jobs\",\"country\":\"USA\"}";
-        tweetRequestBuilder.createUser(json)
+        userRequestBuilder.createUser(json)
                 .andExpect(status().isOk());
     }
 
@@ -52,21 +52,21 @@ public class UserControllerTest {
     @Transactional
     public void updateUser_Successful_UserObjectPassed() throws Exception {
         String json = "{\"id\":78,\"name\":\"Steve\",\"surname\":\"Jobs\",\"country\":\"USA-America\"}";
-        tweetRequestBuilder.updateUser(json)
+        userRequestBuilder.updateUser(json)
                 .andExpect(status().isOk());
     }
 
     @Test
     @Transactional
     public void deleteUserById_Successful_Id() throws Exception {
-        tweetRequestBuilder.deleteUserById(78L)
+        userRequestBuilder.deleteUserById(78L)
                 .andExpect(status().isOk());
     }
 
     @Test
     @Transactional
     public void deleteUserById_Unsuccessful_Id() throws Exception {
-        tweetRequestBuilder.deleteUserById(100453L)
+        userRequestBuilder.deleteUserById(100453L)
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.errorCode").value("#UserNotExisting"));
     }

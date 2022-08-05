@@ -3,6 +3,7 @@ package com.example.twitter.advice;
 import com.example.twitter.controller.dto.TwitterErrorDto;
 import com.example.twitter.exception.EmptyInputException;
 import com.example.twitter.exception.NoResourceException;
+import com.example.twitter.exception.ResourceAlreadyExistingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -29,6 +30,14 @@ public class ControllerAdvisor {
     public TwitterErrorDto handleEmptyInput(EmptyInputException emptyInputException) {
 
         return new TwitterErrorDto(emptyInputException.getErrorCode(), List.of(emptyInputException.getMessage()));
+
+    }
+
+    @ExceptionHandler(ResourceAlreadyExistingException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public TwitterErrorDto handleAlreadyExistingResource(ResourceAlreadyExistingException resourceAlreadyExistingException) {
+
+        return new TwitterErrorDto(resourceAlreadyExistingException.getErrorCode(), List.of(resourceAlreadyExistingException.getMessage()));
 
     }
 
