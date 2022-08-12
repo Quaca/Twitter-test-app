@@ -46,7 +46,10 @@ public class UserService {
     }
 
 
-    public User followUser(User fromUser, User toUser) {
+    public User followUser(Long fromUserId, Long toUserId) {
+
+        User fromUser = getUserById(fromUserId);
+        User toUser = getUserById(toUserId);
 
         if(fromUser.getFollowing().contains(toUser)){
             throw new ResourceAlreadyExistingException("User already follows the specified user.","#ResourceAlreadyExisting");
@@ -56,7 +59,10 @@ public class UserService {
     }
 
 
-    public User unfollowUser(User fromUser, User toUser){
+    public User unfollowUser(Long fromUserId, Long toUserId){
+        User fromUser = getUserById(fromUserId);
+        User toUser = getUserById(toUserId);
+
         if(!fromUser.getFollowing().contains(toUser)){
             throw new NoResourceException( "User does not follow the specified user", "#FollowershipNotExisting");
         }

@@ -18,7 +18,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.*;
 
-public class TweetServiceIntegrationMockTest {
+public class TweetServiceMockTest {
 
     @Mock
     private TweetRepository tweetRepository;
@@ -62,7 +62,6 @@ public class TweetServiceIntegrationMockTest {
     @Test
     public void getTweetById_Successful_ValidId() {
         when(tweetRepository.findById(1L)).thenReturn(Optional.of(tweet));
-
         Tweet actualPostResponseTweet = tweetService.getTweetById(1L);
 
         assertThat(actualPostResponseTweet.getId(), is(equalTo(postResponseTweet.getId())));
@@ -89,7 +88,7 @@ public class TweetServiceIntegrationMockTest {
 
         Tweet returnedTweet = tweetService.save(newTweet);
 
-        verify(tweetRepository, times(1)).save(any(Tweet.class));
+        verify(tweetRepository, times(1)).save(newTweet);
 
     }
 

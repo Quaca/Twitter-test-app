@@ -51,13 +51,9 @@ public class UserController {
     }
 
     @PostMapping("v1/users/follow")
-    @ResponseStatus(HttpStatus.OK)
     public UserGetDto followUser(@Valid @RequestBody FollowershipDto followershipDto) {
 
-        User fromUser = userService.getUserById(followershipDto.getFromId());
-        User toUser = userService.getUserById(followershipDto.getToId());
-
-        User userCreated = userService.followUser(fromUser, toUser);
+        User userCreated = userService.followUser(followershipDto.getFromId(), followershipDto.getToId());
 
         return ObjectMapperUtils.map(userCreated, UserGetDto.class);
     }
@@ -66,10 +62,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public UserGetDto unfollowUser(@Valid @RequestBody FollowershipDto followershipDto) {
 
-        User fromUser = userService.getUserById(followershipDto.getFromId());
-        User toUser = userService.getUserById(followershipDto.getToId());
-
-        User userCreated = userService.unfollowUser(fromUser, toUser);
+        User userCreated = userService.unfollowUser(followershipDto.getFromId(), followershipDto.getToId());
 
         return ObjectMapperUtils.map(userCreated, UserGetDto.class);
     }
