@@ -27,6 +27,13 @@ public class UserGetDto {
     @NotBlank
     private String country;
 
+    @NotBlank
+    private String username;
+
+    @NotBlank
+    private String email;
+
+
     private List<TweetGetDto> tweets;
 
     private List<CommentGetDto> comments;

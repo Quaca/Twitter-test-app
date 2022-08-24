@@ -24,11 +24,19 @@ ext {
     set('jdbcVersion', "2.7.0")
     set("validationVersion", "2.7.0")
     set('devToolVersion', "2.7.0")
+    set('springMailVersion', "2.7.0")
+    set('cryptoSecurityVersion', "5.7.2")
+    set('springSecurityCore', "5.7.2")
+    set('springSecurityWeb', "5.7.2")
+    set('springSecurityConfig', "5.7.2")
+    set('springSecurityTest', "5.7.2")
     set('mysqlConnectorVersion', "8.0.30")
     set('jupiterEngineVersion', "5.8.2")
     set('jupiterApiVersion', "5.8.2")
     set('modelMapperVersion', "3.1.0")
-
+    set('passayVersion', "1.6.1")
+    set('guavaVersion', "31.1-jre")
+    set('javajwt', "4.0.0")
 
     set("testVersion", "2.7.0")
 }
@@ -39,11 +47,22 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-jdbc:${jdbcVersion}"
     implementation "org.springframework.boot:spring-boot-starter-validation:${validationVersion}"
     implementation "org.springframework.boot:spring-boot-devtools:${devToolVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-mail:${springMailVersion}"
+    implementation "org.springframework.security:spring-security-crypto:${cryptoSecurityVersion}"
+    implementation "org.springframework.security:spring-security-core:${springSecurityCore}"
+    implementation "org.springframework.security:spring-security-web:${springSecurityWeb}"
+    implementation "org.springframework.security:spring-security-config:${springSecurityConfig}"
+    implementation "org.springframework.security:spring-security-test:${springSecurityTest}"
+
     implementation "mysql:mysql-connector-java:${mysqlConnectorVersion}"
     implementation "org.modelmapper:modelmapper:${modelMapperVersion}"
     implementation 'org.mockito:mockito-junit-jupiter:4.6.1'
     implementation 'org.flywaydb:flyway-core'
     implementation 'org.flywaydb:flyway-mysql'
+    implementation "org.passay:passay:${passayVersion}"
+    implementation "com.google.guava:guava:${guavaVersion}"
+    implementation "com.auth0:java-jwt:${javajwt}"
+
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 

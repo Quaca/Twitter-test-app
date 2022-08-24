@@ -1,9 +1,11 @@
 package com.example.twitter.advice;
 
 import com.example.twitter.controller.dto.TwitterErrorDto;
+import com.example.twitter.controller.dto.users.UserDto;
 import com.example.twitter.exception.EmptyInputException;
 import com.example.twitter.exception.NoResourceException;
 import com.example.twitter.exception.ResourceAlreadyExistingException;
+import com.example.twitter.exception.UserAlreadyExistException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,6 +17,14 @@ import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class ControllerAdvisor {
+
+    @ExceptionHandler(UserAlreadyExistException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public TwitterErrorDto handleAlreadyExistingUser(UserAlreadyExistException userAlreadyExistException) {
+
+        return new TwitterErrorDto(userAlreadyExistException.getErrorCode(), List.of(userAlreadyExistException.getMessage()));
+
+    }
 
     @ExceptionHandler(value = NoResourceException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)

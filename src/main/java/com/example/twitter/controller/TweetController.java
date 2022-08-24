@@ -1,5 +1,6 @@
 package com.example.twitter.controller;
 
+import com.example.twitter.context.UserContextHolder;
 import com.example.twitter.controller.dto.CommentDto;
 import com.example.twitter.controller.dto.TweetCreateDto;
 import com.example.twitter.controller.dto.TweetGetDto;
@@ -12,6 +13,7 @@ import com.example.twitter.service.TweetService;
 import com.example.twitter.service.UserService;
 import com.example.twitter.utils.ObjectMapperUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -51,7 +53,7 @@ public class TweetController {
     @ResponseStatus(HttpStatus.OK)
     public TweetGetDto addTweet(@Valid @RequestBody TweetCreateDto tweetCreateDto) {
         Tweet tweet = ObjectMapperUtils.map(tweetCreateDto, Tweet.class);
-        User user = userService.getUserById(tweetCreateDto.getUserId());
+        User user = UserContextHolder.get().getUser();
         tweet.setUser(user);
 
         Tweet returnedTweet = tweetService.save(tweet);
@@ -62,8 +64,13 @@ public class TweetController {
     @PutMapping("v1/tweets")
     @ResponseStatus(HttpStatus.OK)
     public TweetGetDto updateTweet(@Valid @RequestBody TweetUpdateDto tweetUpdateDto) {
-        Tweet newTweet = ObjectMapperUtils.map(tweetUpdateDto, Tweet.class);
-        Tweet returnedTweet = tweetService.update(newTweet);
+        Tweet tweet = ObjectMapperUtils.map(tweetUpdateDto, Tweet.class);
+        User user = UserContextHolder.get().getUser();
+        if(user.getId() != tweet.getUser().getId()){
+            //TODO
+            // throw exception
+        }
+        Tweet returnedTweet = tweetService.update(tweet);
         return ObjectMapperUtils.map(returnedTweet, TweetGetDto.class);
     }
 
@@ -71,6 +78,11 @@ public class TweetController {
     @ResponseStatus(HttpStatus.OK)
     public void deleteTweet(@PathVariable String id) {
         Tweet tweet = tweetService.getTweetById(Long.valueOf(id));
+        User user = UserContextHolder.get().getUser();
+        if(user.getId() != tweet.getUser().getId()){
+            //TODO
+            // throw exception
+        }
         tweetService.delete(tweet);
     }
 
@@ -80,13 +92,13 @@ public class TweetController {
         Comment comment = ObjectMapperUtils.map(commentDto, Comment.class);
 
         Tweet tweet = tweetService.getTweetById(commentDto.getTweetId());
-        User user = userService.getUserById(commentDto.getUserId());
+        User user = UserContextHolder.get().getUser();
         comment.setUser(user);
 
         tweetService.addComment(tweet, comment);
 
-        Tweet newTweet = tweetService.getTweetById(commentDto.getTweetId());
-        return ObjectMapperUtils.map(newTweet, TweetGetDto.class);
+        Tweet returnedTweet = tweetService.getTweetById(commentDto.getTweetId());
+        return ObjectMapperUtils.map(returnedTweet, TweetGetDto.class);
     }
 
     @DeleteMapping("v1/tweet/comment/{id}")
@@ -94,6 +106,11 @@ public class TweetController {
     public void deleteComment(@PathVariable String id) {
 
         Comment comment = commentService.getCommentById(Long.valueOf(id));
+        User user = UserContextHolder.get().getUser();
+        if(user.getId() != comment.getUser().getId()){
+            //TODO
+            // throw exception
+        }
         commentService.delete(comment);
 
     }
