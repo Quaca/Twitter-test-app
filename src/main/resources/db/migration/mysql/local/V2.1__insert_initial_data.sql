@@ -1,8 +1,9 @@
 
 # INSERTS
-INSERT INTO `users` VALUES (78,'Bosnia and Herzegovina','Amar','Kvakic'),
-                           (82,'Croatia','Sandi','Slonjsak'),
-                           (101,'USA','Tom','Brady');
+INSERT INTO `users` (id, name, surname, country, username, email, password)
+VALUES (78,'Amar','Kvakic','Bosnia and Herzegovina','akva','amar.kvakic@gmail.com','password'),
+                           (82,'Sandi','Slonjsak','Croatia','sslo','john.doe@gmail.com','password'),
+                           (101,'Tom','Brady','USA','tbra','john.doe@gmail.com','password');
 INSERT INTO `followers` VALUES (101,78),(78,101);
 
 INSERT INTO `tweets` VALUES (79,'2022-07-29 15:25:43.511000','tweet sa userom','2022-07-29 15:25:43.511000',78),

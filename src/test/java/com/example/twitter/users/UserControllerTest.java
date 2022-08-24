@@ -51,7 +51,7 @@ public class UserControllerTest {
     @Test
     @Transactional
     public void updateUser_Successful_UserObjectPassed() throws Exception {
-        String json = "{\"id\":78,\"name\":\"Steve\",\"surname\":\"Jobs\",\"country\":\"USA-America\"}";
+        String json = "{\"name\":\"Steve\",\"surname\":\"Jobs\",\"country\":\"USA-America\"}";
         userRequestBuilder.updateUser(json)
                 .andExpect(status().isOk());
     }

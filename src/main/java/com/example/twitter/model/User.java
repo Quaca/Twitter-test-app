@@ -24,6 +24,15 @@ public class User {
 
     private String country;
 
+    private String email;
+
+    private String username;
+
+    private boolean enabled = false;
+
+    @Column(length = 60)
+    private String password;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Tweet> tweets = new ArrayList<>();
 
@@ -42,7 +51,6 @@ public class User {
     @ManyToMany(mappedBy = "followers")
     private Set<User> following = new HashSet<>();
 
-
     public void addFollower(User user){
         this.followers.add(user);
     }
@@ -56,6 +64,12 @@ public class User {
         user.followers.remove(this);
     }
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Role> roles = new HashSet<>();
+
+    public void addRole(Role role){
+        roles.add(role);
+    }
 
 //    @Override
 //    public String toString() {
