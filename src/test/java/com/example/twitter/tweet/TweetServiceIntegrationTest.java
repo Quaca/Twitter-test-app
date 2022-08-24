@@ -72,7 +72,7 @@ public class TweetServiceIntegrationTest {
 
         assertThatThrownBy(() -> {
             tweetService.update(newTweet);
-        }).isInstanceOf(NoResourceException.class);
+        }).isInstanceOf(NoResourceException.class).message();
 
     }
 }
