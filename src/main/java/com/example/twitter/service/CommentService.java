@@ -6,6 +6,8 @@ import com.example.twitter.repository.CommentRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class CommentService {
     private final CommentRepository commentRepository;
@@ -22,5 +24,10 @@ public class CommentService {
     @Transactional(readOnly = true)
     public Comment getCommentById(Long id) throws NoResourceException {
         return commentRepository.findById(id).orElseThrow(() -> new NoResourceException(String.valueOf(id), "There is no comment with id " + id, "#CommentNotExisting"));
+    }
+
+    @Transactional(readOnly = true)
+    public List<Comment> getCommentsOfUser(String userId) {
+        return commentRepository.findCommentsByUserId(userId);
     }
 }

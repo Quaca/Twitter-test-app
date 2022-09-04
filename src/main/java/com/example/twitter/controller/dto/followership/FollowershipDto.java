@@ -15,9 +15,9 @@ public class FollowershipDto {
     private Long id;
 
     @NotNull
-    private Long fromId;
+    private String fromId;
 
     @NotNull
-    private Long toId;
+    private String toId;
 
 }

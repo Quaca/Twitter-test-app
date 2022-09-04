@@ -18,7 +18,7 @@ public class TweetGetDto {
     private Long id;
 
     @NotNull
-    private Long userId;
+    private String userId;
 
     @NotBlank
     private String text;

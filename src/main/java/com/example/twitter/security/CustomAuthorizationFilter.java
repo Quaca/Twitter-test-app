@@ -39,47 +39,48 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (request.getServletPath().equals("/login")
-                || request.getServletPath().equals("/registrationConfirm")
-                || request.getServletPath().equals("/resetPassword")) {
-            filterChain.doFilter(request, response);
-        } else {
-            String authorizationHeader = request.getHeader("authorization");
-            if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
-                try {
-                    String token = authorizationHeader.substring("Bearer ".length());
-                    Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
-                    JWTVerifier verifier = JWT.require(algorithm).build();
-                    DecodedJWT decodedJWT = verifier.verify(token);
-                    String username = decodedJWT.getSubject();
-                    String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
-                    Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-                    stream(roles).forEach(role -> {
-                        authorities.add(new SimpleGrantedAuthority(role));
-                    });
-                    User user = userService.getUserByUsername(username);
-                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user,null,authorities);
-                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-                    User userToReturn = null;
-                    Object principal = authenticationToken.getPrincipal();
-                    if(principal instanceof User){
-                        userToReturn = (User) principal;
-                    }
-
-                    if (userToReturn != null){
-                        UserContext userContext = new UserContext();
-                        userContext.setUser(user);
-                        UserContextHolder.set(userContext);
-                    }
-
-                    filterChain.doFilter(request, response);
-                } catch (Exception exception){
-                    System.out.println("Cannot authorize");
-                }
-            } else {
-                filterChain.doFilter(request, response);
-            }
-
-        }
+        filterChain.doFilter(request, response);
+//        if (request.getServletPath().equals("/login")
+//                || request.getServletPath().equals("/registrationConfirm")
+//                || request.getServletPath().equals("/resetPassword")) {
+//            filterChain.doFilter(request, response);
+//        } else {
+//            String authorizationHeader = request.getHeader("authorization");
+//            if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
+//                try {
+//                    String token = authorizationHeader.substring("Bearer ".length());
+//                    Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+//                    JWTVerifier verifier = JWT.require(algorithm).build();
+//                    DecodedJWT decodedJWT = verifier.verify(token);
+//                    String username = decodedJWT.getSubject();
+//                    String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
+//                    Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+//                    stream(roles).forEach(role -> {
+//                        authorities.add(new SimpleGrantedAuthority(role));
+//                    });
+//                    User user = userService.getUserByUsername(username);
+//                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user,null,authorities);
+//                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+//                    User userToReturn = null;
+//                    Object principal = authenticationToken.getPrincipal();
+//                    if(principal instanceof User){
+//                        userToReturn = (User) principal;
+//                    }
+//
+//                    if (userToReturn != null){
+//                        UserContext userContext = new UserContext();
+//                        userContext.setUser(user);
+//                        UserContextHolder.set(userContext);
+//                    }
+//
+//                    filterChain.doFilter(request, response);
+//                } catch (Exception exception){
+//                    System.out.println("Cannot authorize");
+//                }
+//            } else {
+//                filterChain.doFilter(request, response);
+//            }
+//
+//        }
     }
 }

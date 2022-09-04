@@ -2,16 +2,14 @@ package com.example.twitter.advice;
 
 import com.example.twitter.controller.dto.TwitterErrorDto;
 import com.example.twitter.controller.dto.users.UserDto;
-import com.example.twitter.exception.EmptyInputException;
-import com.example.twitter.exception.NoResourceException;
-import com.example.twitter.exception.ResourceAlreadyExistingException;
-import com.example.twitter.exception.UserAlreadyExistException;
+import com.example.twitter.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.ws.rs.NotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +32,13 @@ public class ControllerAdvisor {
 
     }
 
+    @ExceptionHandler(value = NotValidOwnerException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public TwitterErrorDto handleNotValidOwner(NotValidOwnerException notValidOwnerException) {
+
+        return new TwitterErrorDto(notValidOwnerException.getErrorCode(), List.of(notValidOwnerException.getMessage()));
+
+    }
 
     @ExceptionHandler(EmptyInputException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)

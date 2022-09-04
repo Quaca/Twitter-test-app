@@ -24,8 +24,14 @@ public class TweetService {
     }
 
     @Transactional(readOnly = true)
+    public List<Tweet> getUserTweets(String userId) {
+        List<Tweet> tweets = tweetRepository.findTweetsByUserIdEquals(userId).orElseThrow(() -> new NoResourceException(userId, "There is no tweets for given user", "#TweetNotExisting"));
+        return tweets;
+    }
+
+    @Transactional(readOnly = true)
     public Tweet getTweetById(Long id) throws NoResourceException {
-        return tweetRepository.findById(id).orElseThrow(() -> new NoResourceException(String.valueOf(id), "There is no tweet with id " + id, "#TweetNotExisting"));
+        return tweetRepository.findById(id).orElseThrow(() -> new NoResourceException(String.valueOf(id), "There is no tweet with given id", "#TweetNotExisting"));
     }
 
     @Transactional

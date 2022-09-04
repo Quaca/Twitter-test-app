@@ -16,7 +16,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 @PasswordMatches
-public abstract class UserDto {
+public class UserDto {
     @NotBlank
     @Size(min = 1, message = "{Size.userDto.name}")
     private String name;

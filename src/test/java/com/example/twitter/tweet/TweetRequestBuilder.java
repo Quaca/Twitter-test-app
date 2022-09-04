@@ -1,6 +1,7 @@
 package com.example.twitter.tweet;
 
-import com.example.twitter.service.TokenAuthenticationService;
+import com.example.twitter.model.User;
+import com.example.twitter.service.KeycloakService;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -9,15 +10,17 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 public class TweetRequestBuilder {
 
+    private final KeycloakService keycloakService;
     private final MockMvc mvc;
-    private String token;
+    private final String token;
 
-//    private final TokenAuthenticationService tokenAuthenticationService;
-
-    public TweetRequestBuilder(MockMvc mvc) {
+    public TweetRequestBuilder(KeycloakService keycloakService, MockMvc mvc) {
+        this.keycloakService = keycloakService;
         this.mvc = mvc;
-//        this.tokenAuthenticationService = tokenAuthenticationService;
-        token = TokenAuthenticationService.createToken("akva");
+        User user = new User();
+        user.setUsername("third_user");
+        user.setPassword("rootpass16");
+        token = "Bearer " + this.keycloakService.loginUserStringToken(user);
     }
 
     ResultActions findAllTweets() throws Exception {

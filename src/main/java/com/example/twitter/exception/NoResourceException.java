@@ -17,6 +17,7 @@ public class NoResourceException extends RuntimeException {
     }
 
     public NoResourceException(String resourceId) {
+        super("Not found resource given id");
         this.resourceId = resourceId;
     }
 

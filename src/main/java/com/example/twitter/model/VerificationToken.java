@@ -12,8 +12,8 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "verification_tokens")
+//@Entity
+//@Table(name = "verification_tokens")
 public class VerificationToken {
     private static final int EXPIRATION = 60*24;
 
@@ -23,9 +23,9 @@ public class VerificationToken {
 
     private String token;
 
-    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
-//    @JoinColumn(nullable = false, name = "user_id")
-    private User user;
+//    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
+////    @JoinColumn(nullable = false, name = "user_id")
+//    private User user;
 
     private Date expiryDate;
 
@@ -39,7 +39,7 @@ public class VerificationToken {
     public VerificationToken(final String token, final User user){
         super();
         this.token = token;
-        this.user = user;
+//        this.user = user;
         this.expiryDate = calculateExpiryDate(EXPIRATION);
     }
 
