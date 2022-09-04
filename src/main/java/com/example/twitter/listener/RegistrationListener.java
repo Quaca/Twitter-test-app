@@ -32,12 +32,12 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
     }
 
     private void confirmRegistration(final OnRegistrationCompleteEvent event) {
-        final User user = event.getUser();
-        final String token = UUID.randomUUID().toString();
-        userService.createVerificationTokenForUser(user, token);
-
-        final SimpleMailMessage email = constructEmailMessage(event, user, token);
-        mailSender.send(email);
+//        final User user = event.getUser();
+//        final String token = UUID.randomUUID().toString();
+//        userService.createVerificationTokenForUser(user, token);
+//
+//        final SimpleMailMessage email = constructEmailMessage(event, user, token);
+//        mailSender.send(email);
     }
 
     private SimpleMailMessage constructEmailMessage(final OnRegistrationCompleteEvent event, final User user, final String token) {

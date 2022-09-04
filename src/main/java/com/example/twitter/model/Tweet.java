@@ -15,8 +15,10 @@ public class Tweet {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    private String userId;
+
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    private User user;
 
     private String text;
 

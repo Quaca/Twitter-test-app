@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class UserGetDto {
     @NotNull
-    private Long id;
+    private String id;
 
     @NotBlank
     private String name;
@@ -38,8 +38,8 @@ public class UserGetDto {
 
     private List<CommentGetDto> comments;
 
-    private List<Long> followers;
+    private List<String> followers;
 
-    private List<Long> following;
+    private List<String> following;
 
 }

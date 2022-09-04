@@ -16,6 +16,7 @@ services:
       - "SPRING_PROFILES_ACTIVE=local"
     depends_on:
       - db
+      - keycloak
 
   db:
     container_name: mysqldb
@@ -26,3 +27,16 @@ services:
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     ports:
       - "3306:3306"
+
+  keycloak:
+    container_name: keycloak
+    image: jboss/keycloak:16.1.1
+    restart: on-failure
+    ports:
+      - "8180:8180"
+    command: ["-Djboss.socket.binding.port-offset=100"]
+    environment:
+      - KEYCLOAK_USER=root
+      - KEYCLOAK_PASSWORD=rootpass16
+    depends_on:
+      - db

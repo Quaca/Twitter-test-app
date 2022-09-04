@@ -18,29 +18,29 @@ import java.util.stream.Collectors;
 public class ObjectMapperUtils {
     private static final ModelMapper modelMapper;
 
-    @Bean
-    @ConfigurationPropertiesBinding
-    public Converter<User, Long> userToUserId() {
-        return new Converter<User, Long>() {
-            @Override
-            public Long convert(MappingContext<User, Long> context) {
-                return context.getSource().getId();
-            }
-        };
-    }
-
+//    @Bean
+//    @ConfigurationPropertiesBinding
+//    public Converter<User, Long> userToUserId() {
+//        return new Converter<User, Long>() {
+//            @Override
+//            public Long convert(MappingContext<User, Long> context) {
+//                return context.getSource().getId();
+//            }
+//        };
+//    }
+//
     static {
         modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
 
-        Converter<User, Long> userToUserId = new Converter<>() {
-            @Override
-            public Long convert(MappingContext<User, Long> context) {
-                return context.getSource().getId();
-            }
-        };
-
-        modelMapper.addConverter(userToUserId);
+//        Converter<User, Long> userToUserId = new Converter<>() {
+//            @Override
+//            public Long convert(MappingContext<User, Long> context) {
+//                return context.getSource().getId();
+//            }
+//        };
+//
+//        modelMapper.addConverter(userToUserId);
 
     }
 

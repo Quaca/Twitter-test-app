@@ -1,22 +1,16 @@
 package com.example.twitter.model;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Setter
 @Getter
-@Entity
-@Table(name = "users")
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+
+    private String id;
 
     private String name;
 
@@ -28,71 +22,16 @@ public class User {
 
     private String username;
 
-    private boolean enabled = false;
-
-    @Column(length = 60)
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Tweet> tweets = new ArrayList<>();
+    private List<String> followers;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> comments = new ArrayList<>();
+    private List<String> following;
 
-    @ManyToMany(cascade = { CascadeType.ALL })
-    @JoinTable(
-            name = "followers",
-            joinColumns = { @JoinColumn(name = "to_id") },
-            inverseJoinColumns = { @JoinColumn(name = "from_id") }
-    )
-    private Set<User> followers = new HashSet<>();
-
-
-    @ManyToMany(mappedBy = "followers")
-    private Set<User> following = new HashSet<>();
-
-    public void addFollower(User user){
-        this.followers.add(user);
-    }
-    public void follow(User user){
-        this.following.add(user);
-        user.followers.add(this);
+    public void addFollowing(String toId) {
+        if (!following.contains(toId)) {
+            following.add(toId);
+        }
     }
 
-    public void unfollow(User user){
-        this.following.remove(user);
-        user.followers.remove(this);
-    }
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Role> roles = new HashSet<>();
-
-    public void addRole(Role role){
-        roles.add(role);
-    }
-
-//    @Override
-//    public String toString() {
-//        String result = getId().toString() + "," + getName() + "," + getSurname() + "," + getCountry();
-//        return result;
-//    }
-
-//    @ManyToMany(mappedBy = "to", fetch = FetchType.LAZY)
-//    @JoinTable(name="followers")
-//    private Set<User> followers;
-//
-//    @ManyToMany(mappedBy="from", fetch = FetchType.LAZY)
-//    @JoinTable(name="followers")
-//    private Set<User> following;
-
-
-//    @ToString.Exclude
-//    @EqualsAndHashCode.Exclude
-//    @OneToMany(mappedBy = "to")
-//    Set<User> followers = new HashSet<>();
-//
-//    @ToString.Exclude
-//    @EqualsAndHashCode.Exclude
-//    @OneToMany(mappedBy = "from")
-//    Set<User> following = new HashSet<>();
 }

@@ -12,8 +12,8 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "password_reset_tokens")
+//@Entity
+//@Table(name = "password_reset_tokens")
 public class PasswordResetToken {
 
     private static final int EXPIRATION = 60*24;
@@ -24,8 +24,8 @@ public class PasswordResetToken {
 
     private String token;
 
-    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
-    private User user;
+//    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
+//    private User user;
 
     private Date expiryDate;
 
@@ -39,7 +39,7 @@ public class PasswordResetToken {
     public PasswordResetToken(final String token, final User user){
         super();
         this.token = token;
-        this.user = user;
+//        this.user = user;
         this.expiryDate = calculateExpiryDate(EXPIRATION);
     }
 }
